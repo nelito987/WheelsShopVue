@@ -1,0 +1,38 @@
+<template>
+  <div class="content col-md-12">
+    <div class="product-home col-md-5 col-sm-12">
+        <h2>Wheels</h2>
+      <img col-md="12" src="../images/michelintyre.webp" class="product-image" alt />
+    </div>
+    <div class="product-home col-md-5 col-sm-12">
+        <h2>Tyres</h2>
+      <img col-md="12" src="../images/michelintyre.webp" class="product-image" alt />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+.product-home {
+  border: 2px solid orange;
+  min-width: 300px;
+  position: relative;
+  margin-left: 20px;
+}
+.product-image {
+  border: 1px solid black;
+  max-width: 200px;
+  max-height: 200px;
+  margin: 50px;
+}
+</style>
