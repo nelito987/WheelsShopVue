@@ -9,11 +9,19 @@
     "start": "vue-cli-service serve --open"
   },
   "dependencies": {
+    "@progress/kendo-data-query": "^1.5.3",
+    "@progress/kendo-theme-default": "^4.17.0",
+    "@progress/kendo-vue-animation": "^0.5.2",
+    "@progress/kendo-vue-data-tools": "^0.5.2",
+    "@progress/kendo-vue-grid": "^0.5.2",
+    "@progress/kendo-vue-intl": "^0.5.2",
+    "@progress/kendo-vue-popup": "^0.5.2",
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.11.0",
     "core-js": "^3.6.4",
     "mdbvue": "6.6.0",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-class-component": "^7.2.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",

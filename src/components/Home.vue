@@ -1,20 +1,23 @@
 <template>
   <div class="content col-md-12">
-    <div class="product-home col-md-5 col-sm-12">
+    <router-link to="/wheelslist" tag="button" class="product-home col-md-5 col-sm-12">
+      <div class="product">
         <h2>Wheels</h2>
-      <img col-md="12" src="../images/michelintyre.webp" class="product-image" alt />
-    </div>
-    <div class="product-home col-md-5 col-sm-12">
+        <img col-md="12" src="../images/ultraleggera.png" class="product-image" alt />
+      </div>
+    </router-link>
+
+    <router-link to="/tyreslist" tag="button" class="product-home col-md-5 col-sm-12">
+      <div class="product">
         <h2>Tyres</h2>
-      <img col-md="12" src="../images/michelintyre.webp" class="product-image" alt />
-    </div>
+        <img col-md="12" src="../images/michelintyre.webp" class="product-image" alt />
+      </div>
+    </router-link>
   </div>
 </template>
 
 <script>
-export default {
-
-};
+export default {};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -28,11 +31,15 @@ export default {
   min-width: 300px;
   position: relative;
   margin-left: 20px;
+  background-color: white;
 }
 .product-image {
   border: 1px solid black;
   max-width: 200px;
   max-height: 200px;
   margin: 50px;
+}
+img {
+  background: white;
 }
 </style>

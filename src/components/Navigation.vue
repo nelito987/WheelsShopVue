@@ -23,15 +23,20 @@ export default {
         //   page:'/HelloWorld'
         // },
         {
-          id: 1,
+          id: 0,
           text: "Home",
           page: "/"
         },
         {
-          id: 2,
+          id: 1,
           text: "Wheels List",
           page: "/WheelsList"
         },
+        {
+          id: 2,
+          text: "Tyres List",
+          page: "/TyresList"
+        },        
         {
           id: 3,
           text: "Contacts",
