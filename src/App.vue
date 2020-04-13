@@ -30,4 +30,8 @@ export default {
   border: 2px solid salmon;
   padding: 150px;
 }
+
+.k-filtercell-operator{
+  display: none !important;
+}
 </style>

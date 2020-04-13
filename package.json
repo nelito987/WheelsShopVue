@@ -9,8 +9,10 @@
     "start": "vue-cli-service serve --open"
   },
   "dependencies": {
+    "@progress/kendo-buttons-vue-wrapper": "^2020.1.406",
     "@progress/kendo-data-query": "^1.5.3",
     "@progress/kendo-theme-default": "^4.17.0",
+    "@progress/kendo-ui": "^2020.1.406",
     "@progress/kendo-vue-animation": "^0.5.2",
     "@progress/kendo-vue-data-tools": "^0.5.2",
     "@progress/kendo-vue-grid": "^0.5.2",
@@ -21,7 +23,8 @@
     "core-js": "^3.6.4",
     "mdbvue": "6.6.0",
     "vue": "^2.6.11",
-    "vue-class-component": "^7.2.3"
+    "vue-class-component": "^7.2.3",
+    "vuex": "^3.1.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",

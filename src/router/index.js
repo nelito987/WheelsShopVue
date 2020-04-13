@@ -3,6 +3,7 @@ import Router from 'vue-router';
 
 import Home from '@/components/Home';
 import WheelsList from '@/components/wheels/WheelsList';
+import WheelDetails from '@/components/wheels/WheelDetails';
 import TyresList from '@/components/tyres/TyresList';
 import Contacts from '@/components/Contacts';
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/contacts',
       name: 'Contacts',
       component: Contacts
-    }
+    },
+    {
+      path: '/wheelDetails',
+      name: 'Wheel Details',
+      component: WheelDetails
+    },
   ]
 });

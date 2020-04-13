@@ -7,8 +7,11 @@ import '@progress/kendo-theme-default/dist/all.css'
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import store from './store'
-import { Grid } from '@progress/kendo-vue-grid'
+import store from './store/index'
+import { Grid } from '@progress/kendo-vue-grid';
+// import $ from 'jquery';
+import '@progress/kendo-ui';
+import { ButtonsInstaller } from '@progress/kendo-buttons-vue-wrapper';
 
 // import { BootstrapVue } from 'bootstrap-vue'
 
@@ -16,6 +19,8 @@ Vue.config.productionTip =
 
 // Vue.use(BootstrapVue)
 Vue.component('Grid', Grid);
+Vue.use(ButtonsInstaller);
+
 
 new Vue({
   router,
