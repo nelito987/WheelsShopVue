@@ -7,7 +7,7 @@
         v-bind:key="routes.id"
         :to="`${routes.page}`"
       >{{routes.text}}</router-link>
-    </nav>
+    </nav>    
   </div>
 </template>
 
@@ -16,12 +16,7 @@ export default {
   name: "Navigation",
   data() {
     return {
-      links: [
-        // {
-        //   id: 0,
-        //   text: 'Hello World',
-        //   page:'/HelloWorld'
-        // },
+      links: [        
         {
           id: 0,
           text: "Home",
@@ -44,7 +39,7 @@ export default {
         }
       ]
     };
-  }
+  }  
 };
 </script>
 <style>

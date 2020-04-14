@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <app-header />
     <router-view />
     <app-footer />
@@ -23,7 +23,7 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
 
 #app {
-  text-align: center;  
+  text-align: center;
 }
 .content {
   margin: 20px;
@@ -31,7 +31,17 @@ export default {
   padding: 150px;
 }
 
-.k-filtercell-operator{
+.k-filtercell-operator {
   display: none !important;
 }
+
+.detailImage {
+  max-width: 300px;
+}
+
+.footer{
+        align-content: center !important;
+        background: orange;
+        padding: 10% 30%;
+    }
 </style>

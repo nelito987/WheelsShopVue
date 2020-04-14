@@ -13,6 +13,7 @@ export default new Vuex.Store({
         holes: 5,
         PCD: 115,
         offset: 35,
+        price: 100,
         imageUrl:
           "https://www.baanvelgen.com/media/catalog/product/cache/1/image/85e4522595efc69f496374d01ef2bf13/o/z/oz-hyper-gt-wheels-star-graphite.jpg"
       },
@@ -23,6 +24,7 @@ export default new Vuex.Store({
         holes: 5,
         PCD: 114.3,
         offset: 40,
+        price: 150,
         imageUrl:
           "https://www.felgenoutlet.com/rims-images/151/347/popup/oz_leggera_hlt_gloss_black.jpg?1475782616"
       },
@@ -33,6 +35,7 @@ export default new Vuex.Store({
         holes: 4,
         PCD: 100,
         offset: 35,
+        price: 130,
         imageUrl:
           "https://www.felgenoutlet.com/rims-images/151/347/popup/oz_leggera_hlt_gloss_black.jpg?1475782616"
       },
@@ -43,28 +46,35 @@ export default new Vuex.Store({
         holes: 5,
         PCD: 108,
         offset: 45,
+        price: 200,
         imageUrl:
           "https://www.felgenoutlet.com/rims-images/151/347/popup/oz_leggera_hlt_gloss_black.jpg?1475782616"
       }
-    ]
+    ],
+    inCart: []
   },
   getters: {
-    wheelsData: state => {
-      var wheels = state.wheelsData;
-      console.log('store')
-      console.log(wheels)
-      return wheels;
-    },
-    getWheelDetails: state => {
-      console.log("test")
-      var wheel = state.wheelsData.find(x => x.id === 3)
+    wheelsData: state => state.wheelsData,
+    inCart: state => state.inCart,
+    getWheelDetails: (state) => (id) => {
+      var wheel = state.wheelsData.find(x => x.id === id)
       return wheel;
     }
   },
   mutations: {
-
+    ADD_TO_CART(state, invId) {
+      state.inCart.push(invId);
+    },
+    REMOVE_FROM_CART(state, index) {
+      state.inCart.splice(index, 1);
+    }
   },
   actions: {
-
+    addToCart(context, invId) {
+      context.commit('ADD_TO_CART', invId);
+    },
+    removeFromCart(context, index) {
+      context.commit('REMOVE_FROM_CART', index);
+    }
   }
 })
