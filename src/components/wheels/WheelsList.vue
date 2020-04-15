@@ -32,8 +32,7 @@ function getNestedValue(fieldName, dataItem) {
   let data = dataItem;
   path.forEach(p => {
     data = data ? data[p] : undefined;
-  });
-  console.log(data);
+  }); 
   return data;
 }
 
@@ -120,7 +119,6 @@ export default {
     },
     getNestedValue,
     buyWheel: function(id) {
-      console.log(id);
       this.$router.push({ path: "wheelDetails", query: {id: id} });
     }
   }

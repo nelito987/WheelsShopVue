@@ -4,26 +4,30 @@
       <button id="cardBtn" class="k-button" @click="toggleDialog">Cart ({{ numInCart }})</button>
     </span>
     <k-dialog v-if="visibleDialog" :title="'Shopping Cart'" @close="toggleDialog">
-      <!-- <p :style="{ margin: '25px', textAlign: 'center' }"> -->
-      <table class="table">
-        <tbody>
-          <tr v-for="(item, index) in cart" :key="item.id">
-            <td>{{ item.name }}</td>
-            <td>{{ item.brand }}</td>
-            <td>{{ item.price | dollars }}</td>
-            <td>
-              <button class="btn btn-sm btn-danger" @click="removeFromCart(index)">&times;</button>
-            </td>
-          </tr>
-          <tr>
-            <th></th>
-            <th>{{ total | dollars }}</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </tbody>
-      </table>
-      <!-- </p> -->
+      <div v-if="numInCart > 0">
+        <table class="table">
+          <tbody>
+            <tr v-for="(item, index) in cart" :key="item.id">
+              <td>{{ item.name }}</td>
+              <td>{{ item.brand }}</td>
+              <td>{{ item.count }}</td>
+              <td>{{ item.price | dollars }}</td>
+              <td>{{ item.totalPerPurchase | dollars }}</td>
+              <td>
+                <button class="btn btn-sm btn-danger" @click="removeFromCart(index)">&times;</button>
+              </td>
+            </tr>
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th>TOTAL:</th>
+              <th>{{ total | dollars }}</th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div v-else>Your cart is empty!!!</div>
       <dialog-actions-bar>
         <button class="k-button" @click="toggleDialog">Keep shopping</button>
         <button class="k-button" @click="toggleDialog">Check out</button>
@@ -39,7 +43,7 @@ export default {
   name: "shoppingCart",
   data: function() {
     return {
-      visibleDialog: false
+      visibleDialog: false     
     };
   },
   filters: {
@@ -47,11 +51,10 @@ export default {
   },
   methods: {
     toggleDialog() {
-      console.log(this.visibleDialog);
       this.visibleDialog = !this.visibleDialog;
     },
-     removeFromCart(index) {
-      this.$store.dispatch('removeFromCart', index);
+    removeFromCart(index) {
+      this.$store.dispatch("removeFromCart", index);
     }
   },
   computed: {
@@ -59,14 +62,25 @@ export default {
       return this.$store.getters.inCart;
     },
     total() {
-      return this.cart.reduce((acc, cur) => acc + cur.price, 0);
+      return this.cart.reduce((acc, cur) => acc + cur.totalPerPurchase, 0);
     },
     cart() {
-      return this.$store.getters.inCart.map(cartItem => {
-        return this.$store.getters.wheelsData.find(forSaleItem => {
-          return cartItem === forSaleItem.id;
-        });
+      let cartList = [];
+      let currentList = this.$store.getters.inCart;
+
+      currentList.forEach(element => {
+        let current = this.$store.getters.getWheelDetails(element.id);
+        var newObj = {
+          id: element.id,
+          count: element.count,
+          brand: current.brand,
+          price: current.price,
+          name: current.name,
+          totalPerPurchase: element.count * current.price
+        };
+        cartList.push(newObj);
       });
+      return cartList;
     },
     numInCart() {
       return this.inCart.length;

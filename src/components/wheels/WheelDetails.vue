@@ -15,7 +15,7 @@
       </div>
       <div class="col-md-2">
         <div class="row">
-          <numerictextbox :default-value="4" :format="'0'"></numerictextbox>
+          <numerictextbox v-model="wheelsCount" id="wheelsCount"  :min= 0 :format="'0'"></numerictextbox>
         </div>
         <div class="row">
           <b-button class="col-md-12" variant="warning" @click="addToCart()">Buy</b-button>
@@ -33,7 +33,7 @@ export default {
     return {
       id: this.$route.query.id,
       imageUrl: "",
-      
+      wheelsCount: 4
     };
   },
   computed: {
@@ -41,8 +41,7 @@ export default {
       return this.$store.getters.getWheelDetails(this.id);
     },
     detailsWithoutImg() {
-      var obj = {};
-      console.log(this.details)
+      var obj = {};      
       for (let [key, value] of Object.entries(this.details)) {
         if (key != "imageUrl") {
           obj[key] = value;
@@ -53,8 +52,9 @@ export default {
     ...mapGetters(["getWheelDetails"])
   },
   methods: {
-    addToCart() {
-      this.$store.dispatch("addToCart", this.id);
+    addToCart() {       
+        
+      this.$store.dispatch("addToCart", { id: this.id, count: this.wheelsCount});
     }
   }
 };

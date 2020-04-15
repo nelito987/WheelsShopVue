@@ -49,7 +49,7 @@ export default {
 
 .navbar {
   border: 2px solid #e5e7e9;
-  background: #f7dc6f;
+  background: #fd5a4e;
   color: #566573;
   height: 80px;
 }
@@ -62,11 +62,17 @@ nav {
 nav > a {
     width: 33%;
     padding: 20px;
+    color:rgb(82, 77, 77);
+    font-weight: bold !important;
+
+}
+nav > a:hover {    
+    color: black
 
 }
 .router-link-exact-active {
-  color: grey;
-  background: rgb(235, 190, 14);
+  color: rgb(49, 30, 30);
+  background: #fa857d;
   padding: 20px;
   font-weight: bold;
 }

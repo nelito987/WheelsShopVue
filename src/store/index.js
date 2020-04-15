@@ -62,16 +62,17 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    ADD_TO_CART(state, invId) {
-      state.inCart.push(invId);
+    ADD_TO_CART(state, purchase) {
+      state.inCart.push(purchase);
     },
     REMOVE_FROM_CART(state, index) {
       state.inCart.splice(index, 1);
     }
   },
   actions: {
-    addToCart(context, invId) {
-      context.commit('ADD_TO_CART', invId);
+    addToCart(context, purchase) {
+      console.log(purchase)
+      context.commit('ADD_TO_CART', purchase);
     },
     removeFromCart(context, index) {
       context.commit('REMOVE_FROM_CART', index);
