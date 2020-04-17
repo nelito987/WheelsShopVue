@@ -27,19 +27,18 @@
 
 import { filterBy } from "@progress/kendo-data-query";
 
-function getNestedValue(fieldName, dataItem) {
+function getNestedValue(fieldName, dataItem) { 
   const path = fieldName.split(".");
   let data = dataItem;
   path.forEach(p => {
     data = data ? data[p] : undefined;
-  }); 
+  });
   return data;
 }
 
 export default {
   data() {
     return {
-      
       // wheelsData: [
       //   {
       //     id: 1,
@@ -88,28 +87,31 @@ export default {
       }
     };
   },
+  created() {
+    this.$store.dispatch("getWheels");
+  },
   computed: {
-    wheelsData(){
-          
-            return this.$store.getters.wheelsData;
-        },
-    wheels: function() {     
+    wheelsData() {
+      return this.$store.state.wheelsData;
+    },
+    wheels: function() {
       return filterBy(this.wheelsData, this.filter);
     },
     columns: function() {
       return [
         {
-          field: "imageUrl",
+          field: "Image",
           title: "",
           cell: "imgTemplate",
           filterable: false
         },
-        { field: "brand", title: "Brand" },
-        { field: "name", title: "Name" },
+        { field: "Brand", title: "Brand" },
+        { field: "Name", title: "Name" },
         { field: "PCD", title: "PCD" },
-        { field: "holes", title: "Holes" },
-        { field: "offset", title: "Offset" },
-        { field: "", title: "Buy", filterable: false, cell: "buyBtnTemplate" }
+        { field: "Holes", title: "Holes" },
+        { field: "Offset", title: "Offset" },
+        { field: "Price", title: "Price" },
+        { field: "", title: "", filterable: false, cell: "buyBtnTemplate" }
       ];
     }
   },
@@ -119,7 +121,12 @@ export default {
     },
     getNestedValue,
     buyWheel: function(id) {
-      this.$router.push({ path: "wheelDetails", query: {id: id} });
+        console.log(id)
+      this.$router.push({
+        path: "/wheelDetails",
+        name: "wheelDetail",
+        params: { id: id }
+      });
     }
   }
 };

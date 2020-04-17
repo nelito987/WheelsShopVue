@@ -36,7 +36,12 @@ export default {
           id: 3,
           text: "Contacts",
           page: "/Contacts"
-        }
+        },
+                {
+          id: 4,
+          text: "Add Wheel",
+          page: "/addwheel"
+        },
       ]
     };
   }  

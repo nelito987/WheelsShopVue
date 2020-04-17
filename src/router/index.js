@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import Home from '@/components/Home';
 import WheelsList from '@/components/wheels/WheelsList';
 import WheelDetails from '@/components/wheels/WheelDetails';
+import AddWheel from '@/components/wheels/AddWheel';
 import TyresList from '@/components/tyres/TyresList';
 import Contacts from '@/components/Contacts';
 
@@ -32,9 +33,16 @@ export default new Router({
       component: Contacts
     },
     {
-      path: '/wheelDetails',
-      name: 'Wheel Details',
-      component: WheelDetails
+      path: '/wheelDetails/:id',
+      name: 'wheelDetail',
+      component: WheelDetails,
+      props: true
+    },
+    
+    {
+      path: '/addWheel',
+      name: 'Add Wheel',
+      component: AddWheel
     },
   ]
 });

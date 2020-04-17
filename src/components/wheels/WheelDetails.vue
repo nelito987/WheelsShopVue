@@ -1,8 +1,8 @@
 <template>
   <div id="wheelDetails" class="container">
     <div class="row">
-      <div class="col-md-5" v-if="details.imageUrl">
-        <img class="detailImage" :src="details.imageUrl" alt />
+      <div class="col-md-5" v-if="details.Image">
+        <img class="detailImage" :src="details.Image" alt />
       </div>
       <div class="col-md-5">
         <h3>{{details.brand}} {{details.name}}</h3>
@@ -29,21 +29,23 @@
 import { mapGetters } from "vuex";
 
 export default {
-  data() {
+  data() {    
     return {
-      id: this.$route.query.id,
-      imageUrl: "",
+      id: this.$route.params.id,
+      Image: "",
       wheelsCount: 4
     };
   },
+  //props: ["id"],
   computed: {
     details() {        
+     
       return this.$store.getters.getWheelDetails(this.id);
     },
     detailsWithoutImg() {
       var obj = {};      
       for (let [key, value] of Object.entries(this.details)) {
-        if (key != "imageUrl") {
+        if (key != "Image") {
           obj[key] = value;
         }
       }

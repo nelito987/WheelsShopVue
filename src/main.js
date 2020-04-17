@@ -4,28 +4,37 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 // import 'mdbvue/lib/css/mdb.min.css'
 import '@progress/kendo-theme-default/dist/all.css'
 
+//main
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store/index'
-import { Grid } from '@progress/kendo-vue-grid';
+import VueResource from 'vue-resource'
+
+
+//bootstrap
 import { BootstrapVue } from 'bootstrap-vue'
-// import $ from 'jquery';
+
+//kendo widgets native and wrappers
+import { Grid } from '@progress/kendo-vue-grid';
 import '@progress/kendo-ui';
 import { ButtonsInstaller } from '@progress/kendo-buttons-vue-wrapper';
 import { NumericTextBox } from '@progress/kendo-vue-inputs';
 import { Dialog, DialogActionsBar } from '@progress/kendo-vue-dialogs';
 
-// import { BootstrapVue } from 'bootstrap-vue'
 
-Vue.config.productionTip = 
+//Vue.config.productionTip = 
 
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
+
 Vue.component('Grid', Grid);
 Vue.component('numerictextbox', NumericTextBox);
 Vue.component('k-dialog', Dialog);
 Vue.component('dialog-actions-bar', DialogActionsBar);
+
 Vue.use(ButtonsInstaller);
+
+Vue.use(VueResource);
 
 
 new Vue({
