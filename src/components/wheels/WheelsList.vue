@@ -24,10 +24,10 @@
 
 <script>
 //import { Grid, GridToolbar, GridNoRecords } from "@progress/kendo-vue-grid";
-
 import { filterBy } from "@progress/kendo-data-query";
+import { mapActions, mapGetters } from "vuex";
 
-function getNestedValue(fieldName, dataItem) { 
+function getNestedValue(fieldName, dataItem) {
   const path = fieldName.split(".");
   let data = dataItem;
   path.forEach(p => {
@@ -39,61 +39,31 @@ function getNestedValue(fieldName, dataItem) {
 export default {
   data() {
     return {
-      // wheelsData: [
-      //   {
-      //     id: 1,
-      //     brand: "OZ",
-      //     name: "Ultraleggera",
-      //     holes: 5,
-      //     PCD: 115,
-      //     offset: 35,
-      //     imageUrl:
-      //       "https://www.baanvelgen.com/media/catalog/product/cache/1/image/85e4522595efc69f496374d01ef2bf13/o/z/oz-hyper-gt-wheels-star-graphite.jpg"
-      //   },
-      //   {
-      //     id: 2,
-      //     brand: "Fondmetal",
-      //     name: "7600",
-      //     holes: 5,
-      //     PCD: 114.3,
-      //     offset: 40,
-      //     imageUrl:
-      //       "https://www.felgenoutlet.com/rims-images/151/347/popup/oz_leggera_hlt_gloss_black.jpg?1475782616"
-      //   },
-      //   {
-      //     id: 3,
-      //     brand: "OZ",
-      //     name: "Superturismo",
-      //     holes: 4,
-      //     PCD: 100,
-      //     offset: 35,
-      //     imageUrl:
-      //       "https://www.felgenoutlet.com/rims-images/151/347/popup/oz_leggera_hlt_gloss_black.jpg?1475782616"
-      //   },
-      //   {
-      //     id: 4,
-      //     brand: "OZ",
-      //     name: "Allegerita",
-      //     holes: 5,
-      //     PCD: 108,
-      //     offset: 45,
-      //     imageUrl:
-      //       "https://www.felgenoutlet.com/rims-images/151/347/popup/oz_leggera_hlt_gloss_black.jpg?1475782616"
-      //   }
-      // ],
       filter: {
         logic: "and",
         filters: []
       }
     };
   },
-  created() {
-    this.$store.dispatch("getWheels");
+  mounted() {
+    return this.loadAllWheels();
+  },
+  methods: {
+    ...mapActions({ loadAllWheels: "getWheels" }),
+    filterChange: function(ev) {
+      this.filter = ev.filter;
+    },
+    getNestedValue,
+    buyWheel: function(id) {    
+      this.$router.push({
+        path: "/wheelDetails",
+        name: "wheelDetail",
+        params: { id: id }
+      });
+    }
   },
   computed: {
-    wheelsData() {
-      return this.$store.state.wheelsData;
-    },
+    ...mapGetters(["wheelsData"]),
     wheels: function() {
       return filterBy(this.wheelsData, this.filter);
     },
@@ -113,20 +83,6 @@ export default {
         { field: "Price", title: "Price" },
         { field: "", title: "", filterable: false, cell: "buyBtnTemplate" }
       ];
-    }
-  },
-  methods: {
-    filterChange: function(ev) {
-      this.filter = ev.filter;
-    },
-    getNestedValue,
-    buyWheel: function(id) {
-        console.log(id)
-      this.$router.push({
-        path: "/wheelDetails",
-        name: "wheelDetail",
-        params: { id: id }
-      });
     }
   }
 };
