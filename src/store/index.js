@@ -31,11 +31,15 @@ export default new Vuex.Store({
     },
     REMOVE_FROM_CART(state, index) {
       state.inCart.splice(index, 1);
-    } 
+    },
+    EMPTY_CART(state){
+      state.inCart = []
+    }
   },
   actions: {
+    //TODO action or getter?
     getWheels({ commit }) {
-      Vue.http.get('https://wheelsshop-89c1d.firebaseio.com/wheels.json')
+      return Vue.http.get('https://wheelsshop-89c1d.firebaseio.com/wheels.json')
         .then(response => {
           return response.json()
         }).then(data => {
@@ -47,11 +51,13 @@ export default new Vuex.Store({
         });
     },
     addToCart(context, purchase) {
-
       context.commit('ADD_TO_CART', purchase);
     },
     removeFromCart(context, index) {
       context.commit('REMOVE_FROM_CART', index);
+    },
+    emptyCart(context){
+      context.commit('EMPTY_CART')
     }
   }
 })

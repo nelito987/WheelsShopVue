@@ -21,11 +21,13 @@ import '@progress/kendo-ui';
 import { ButtonsInstaller } from '@progress/kendo-buttons-vue-wrapper';
 import { NumericTextBox } from '@progress/kendo-vue-inputs';
 import { Dialog, DialogActionsBar } from '@progress/kendo-vue-dialogs';
+import { PopupsInstaller } from '@progress/kendo-popups-vue-wrapper';
 
 
 //Vue.config.productionTip = 
 
 Vue.use(BootstrapVue);
+Vue.use(VueResource);
 
 Vue.component('Grid', Grid);
 Vue.component('numerictextbox', NumericTextBox);
@@ -33,9 +35,7 @@ Vue.component('k-dialog', Dialog);
 Vue.component('dialog-actions-bar', DialogActionsBar);
 
 Vue.use(ButtonsInstaller);
-
-Vue.use(VueResource);
-
+Vue.use(PopupsInstaller);
 
 new Vue({
   router,

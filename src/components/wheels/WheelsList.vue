@@ -65,6 +65,7 @@ export default {
   computed: {
     ...mapGetters(["wheelsData"]),
     wheels: function() {
+      //TODO this.$store.getters.wheelsData
       return filterBy(this.wheelsData, this.filter);
     },
     columns: function() {

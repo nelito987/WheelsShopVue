@@ -3,7 +3,7 @@
     <form id="addWheel" @submit="onSubmit" @reset="onReset">
       <h3 class="formHeader">Add Wheel Form</h3>
 
-      <div v-for="(value, index) in wheelData" v-bind:key="index">
+      <div v-for="(value, index) in wheelFormData" v-bind:key="index">
         <InputField
           :type="value.type"
           :label="value.label"
@@ -16,18 +16,19 @@
       <b-button type="reset" variant="danger">Reset</b-button>
     </form>
     <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ wheelData }}</pre>
+      <pre class="m-0">{{ wheelFormData }}</pre>
     </b-card>
   </div>
 </template>
 
 <script>
 import InputField from "../InputField.vue";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
-      wheelData: [
+      wheelFormData: [
         {
           label: "Brand",
           value: "",
@@ -81,17 +82,32 @@ export default {
   components: {
     InputField
   },
+  computed: {
+    ...mapGetters(["wheelsData"])
+  },
   methods: {
-    onSubmit(evt) {
+    async onSubmit(evt) {
       evt.preventDefault();
-      alert(JSON.stringify(this.wheelData));      
+      alert(JSON.stringify(this.wheelFormData));
 
       let newData = {};
-      for (let i in this.wheelData) {        
-        var itemKey = this.wheelData[i].label;
-        var val = this.wheelData[i].value;
-        newData[itemKey] = val;        //c
-      }    
+      for (let i in this.wheelFormData) {
+        var itemKey = this.wheelFormData[i].label;
+        var val = this.wheelFormData[i].value;
+        newData[itemKey] = val; //c
+      }
+
+      let id = -1;
+      let self = this;
+
+      if (this.$store.getters.wheelsData.length > 0) {
+        id = ++this.$store.getters.wheelsData.length;
+      } else {
+        await this.$store.dispatch("getWheels").then(function() {
+          id = ++self.$store.getters.wheelsData.length;
+        });
+      }
+      newData.id = id;
 
       this.$http
         .post(
@@ -110,16 +126,17 @@ export default {
     },
     onReset(evt) {
       evt.preventDefault();
+      //TODO
       // Reset our form values
-      this.wheelData.email = "";
-      this.wheelData.name = "";
-      this.wheelData.food = null;
-      this.wheelData.checked = [];
-      // Trick to reset/clear native browser form validation state
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
-      });
+      // this.wheelData.email = "";
+      // this.wheelData.name = "";
+      // this.wheelData.food = null;
+      // this.wheelData.checked = [];
+      // // Trick to reset/clear native browser form validation state
+      // this.show = false;
+      // this.$nextTick(() => {
+      //   this.show = true;
+      // });
     }
   }
 };

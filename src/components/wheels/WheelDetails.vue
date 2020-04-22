@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-5">
         <h3>{{details.brand}} {{details.name}}</h3>
-        <div class="detailsRow" v-for="(value,key) in detailsWithoutImg" :key="value">
+        <div class="detailsRow" v-for="(value,key, index) in detailsWithoutImg" :key="index">
           <div>
             <b>{{key}}:</b>
             <span>{{value}}</span>
@@ -15,13 +15,18 @@
       </div>
       <div class="col-md-2">
         <div class="row">
-          <numerictextbox v-model="wheelsCount" id="wheelsCount"  :min= 0 :format="'0'"></numerictextbox>
+          <numerictextbox v-model="wheelsCount" id="wheelsCount" :min="0" :format="'0'"></numerictextbox>
         </div>
         <div class="row">
           <b-button class="col-md-12" variant="warning" @click="addToCart()">Buy</b-button>
         </div>
       </div>
     </div>
+    <kendo-notification ref="popupNotification"  
+        :position-top="150"
+        :position-right="250"
+        :width="300"
+        :height="50"></kendo-notification>
   </div>
 </template>
 
@@ -29,21 +34,23 @@
 import { mapGetters } from "vuex";
 
 export default {
-  data() {    
+  data() {
     return {
       id: this.$route.params.id,
       Image: "",
       wheelsCount: 4
     };
   },
+  mounted: function() {
+    this.popupNotificationWidget = this.$refs.popupNotification.kendoWidget();
+  },
   //props: ["id"],
   computed: {
-    details() {        
-     
+    details() {
       return this.$store.getters.getWheelDetails(this.id);
     },
     detailsWithoutImg() {
-      var obj = {};      
+      var obj = {};
       for (let [key, value] of Object.entries(this.details)) {
         if (key != "Image") {
           obj[key] = value;
@@ -54,9 +61,18 @@ export default {
     ...mapGetters(["getWheelDetails"])
   },
   methods: {
-    addToCart() {       
-        
-      this.$store.dispatch("addToCart", { id: this.id, count: this.wheelsCount});
+    addToCart() {
+      let stock = this.details.Stock;
+      console.log(stock);
+      if (stock < this.wheelsCount) {
+        //alert("Not enough quantity!!!");
+        this.popupNotificationWidget.show("Not enough quantity", "warning" );
+      } else {
+        this.$store.dispatch("addToCart", {
+          id: this.id,
+          count: this.wheelsCount
+        });
+      }
     }
   }
 };
