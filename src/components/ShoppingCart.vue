@@ -81,11 +81,12 @@ export default {
       }
 
       console.log(allWheels)
-      this.$http
-        .put(
-          "https://wheelsshop-89c1d.firebaseio.com/wheels.json",
-          allWheels
-        )
+      // this.$http
+      //   .put(
+      //     "https://wheelsshop-89c1d.firebaseio.com/wheels.json",
+      //     allWheels
+      //   )
+       this.$store.dispatch("updateWheelsData", allWheels)
         .then(
           response => {
             console.log(response)

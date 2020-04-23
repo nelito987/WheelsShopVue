@@ -108,21 +108,15 @@ export default {
         });
       }
       newData.id = id;
-
-      this.$http
-        .post(
-          "https://wheelsshop-89c1d.firebaseio.com/wheels.json",
-          newData
-        )
-        .then(
-          response => {
-            console.log(response)
-            this.$router.push('/wheelslist')
-          },
-          error => {
-            console.log(error);
-          }
-        );
+      this.$store.dispatch("addNewWheel").then(
+        response => {
+          console.log(response);
+          this.$router.push("/wheelslist");
+        },
+        error => {
+          console.log(error);
+        }
+      );
     },
     onReset(evt) {
       evt.preventDefault();

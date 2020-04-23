@@ -1,7 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VuexPersist from 'vuex-persist'
 
 Vue.use(Vuex)
+
+const vuexPersist = new VuexPersist({
+  key: 'App',
+  storage: window.sessionStorage
+})
+
 
 export default new Vuex.Store({
   state: {
@@ -14,6 +21,7 @@ export default new Vuex.Store({
     wheelsData: [],
     inCart: []
   },
+  plugins: [vuexPersist.plugin],
   getters: {
     wheelsData: state => state.wheelsData,
     inCart: state => state.inCart,
@@ -34,10 +42,39 @@ export default new Vuex.Store({
     },
     EMPTY_CART(state){
       state.inCart = []
+    },
+    UPDATE_WHEELS_DATA(state, newData){
+      Vue.http
+        .put(
+          "https://wheelsshop-89c1d.firebaseio.com/wheels.json",
+          newData
+        )
+        .then(
+          response => {
+            console.log(response)
+          },
+          error => {
+            console.log(error);
+          }
+        );
+    },
+    ADD_NEW_WHEEL(state, wheel){
+      return Vue.http
+        .post(
+          "https://wheelsshop-89c1d.firebaseio.com/wheels.json",
+          wheel
+        )
+        .then(
+          response => {
+            console.log(response)            
+          },
+          error => {
+            console.log(error);
+          }
+        );
     }
   },
-  actions: {
-    //TODO action or getter?
+  actions: {    
     getWheels({ commit }) {
       return Vue.http.get('https://wheelsshop-89c1d.firebaseio.com/wheels.json')
         .then(response => {
@@ -58,6 +95,12 @@ export default new Vuex.Store({
     },
     emptyCart(context){
       context.commit('EMPTY_CART')
+    },
+    updateWheelsData(context, newWheelsData){
+      return context.commit('UPDATE_WHEELS_DATA', newWheelsData);
+    },
+    addNewWheel(context, wheel){
+      return context.commit('ADD_NEW_WHEEL', wheel)
     }
   }
 })

@@ -18,15 +18,17 @@
           <numerictextbox v-model="wheelsCount" id="wheelsCount" :min="0" :format="'0'"></numerictextbox>
         </div>
         <div class="row">
-          <b-button class="col-md-12" variant="warning" @click="addToCart()">Buy</b-button>
+          <b-button class="col-md-12" variant="warning" @click="addToCart()">Add to cart</b-button>
         </div>
       </div>
     </div>
-    <kendo-notification ref="popupNotification"  
-        :position-top="150"
-        :position-right="250"
-        :width="300"
-        :height="50"></kendo-notification>
+    <kendo-notification
+      ref="popupNotification"
+      :position-top="150"
+      :position-right="250"
+      :width="300"
+      :height="50"
+    ></kendo-notification>
   </div>
 </template>
 
@@ -47,7 +49,15 @@ export default {
   //props: ["id"],
   computed: {
     details() {
-      return this.$store.getters.getWheelDetails(this.id);
+      //if the page is reloaded and the state does not persist, get the list of wheels from sessionStorage
+      var wheel = this.$store.getters.getWheelDetails(this.id);      
+      if (wheel == undefined) {
+        var appData = JSON.parse(sessionStorage.getItem("App"));
+        var wheels = appData.wheelsData;
+        wheel = wheels.find(x => x.id == this.id)
+        console.log(wheels);
+      }
+      return wheel;
     },
     detailsWithoutImg() {
       var obj = {};
@@ -63,10 +73,9 @@ export default {
   methods: {
     addToCart() {
       let stock = this.details.Stock;
-      console.log(stock);
       if (stock < this.wheelsCount) {
         //alert("Not enough quantity!!!");
-        this.popupNotificationWidget.show("Not enough quantity", "warning" );
+        this.popupNotificationWidget.show("Not enough quantity", "warning");
       } else {
         this.$store.dispatch("addToCart", {
           id: this.id,
