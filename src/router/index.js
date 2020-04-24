@@ -7,6 +7,8 @@ import WheelDetails from '@/components/wheels/WheelDetails';
 import AddWheel from '@/components/wheels/AddWheel';
 import TyresList from '@/components/tyres/TyresList';
 import Contacts from '@/components/Contacts';
+import SignUp from '@/components/auth/SignUp';
+import SignIn from '@/components/auth/SignIn';
 
 Vue.use(Router);
 
@@ -37,12 +39,21 @@ export default new Router({
       name: 'wheelDetail',
       component: WheelDetails,
       props: true
-    },
-    
+    },    
     {
       path: '/addWheel',
       name: 'Add Wheel',
       component: AddWheel
     },
+    {
+      path: '/signup',
+      name: 'Sign Up',
+      component: SignUp
+    },
+    {
+      path: '/signin',
+      name: 'Sign In',
+      component: SignIn
+    }
   ]
 });

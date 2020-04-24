@@ -1,13 +1,19 @@
 <template>
   <div class="navbar">
     <nav>
-      <router-link
-        class="spacing"
-        v-for="routes in links"
-        v-bind:key="routes.id"
-        :to="`${routes.page}`"
-      >{{routes.text}}</router-link>
-    </nav>    
+      <div>
+        <router-link
+          class="spacing"
+          v-for="routes in links"
+          v-bind:key="routes.id"
+          :to="`${routes.page}`"
+        >{{routes.text}}</router-link>
+      </div>
+      <div id="sign">
+        <router-link to="/signup">Sign Up</router-link>
+        <router-link to="/signin">Sign In</router-link>
+      </div>
+    </nav>
   </div>
 </template>
 
@@ -16,7 +22,7 @@ export default {
   name: "Navigation",
   data() {
     return {
-      links: [        
+      links: [
         {
           id: 0,
           text: "Home",
@@ -31,20 +37,20 @@ export default {
           id: 2,
           text: "Tyres List",
           page: "/TyresList"
-        },        
+        },
         {
           id: 3,
           text: "Contacts",
           page: "/Contacts"
         },
-                {
+        {
           id: 4,
           text: "Add Wheel",
           page: "/addwheel"
-        },
+        }
       ]
     };
-  }  
+  }
 };
 </script>
 <style>
@@ -60,26 +66,28 @@ export default {
 }
 nav {
   flex: 1;
-  
+
   display: flex;
   justify-content: space-between;
 }
-nav > a {
-    width: 33%;
-    padding: 20px;
-    color:rgb(82, 77, 77);
-    font-weight: bold !important;
-
+nav a {
+  width: 33%;
+  padding: 20px;
+  color: rgb(82, 77, 77);
+  font-weight: bold !important;
 }
-nav > a:hover {    
-    color: black
-
+nav a:hover {
+  color: black;
 }
 .router-link-exact-active {
   color: rgb(49, 30, 30);
   background: #fa857d;
   padding: 20px;
   font-weight: bold;
+}
+
+#sign{
+  margin-left: 50px;
 }
 </style>
 
