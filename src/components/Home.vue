@@ -1,5 +1,5 @@
 <template>
-  <div class="content col-md-12">
+  <div class="content col-md-12">    
     <router-link to="/wheelslist" tag="button" class="product-home col-md-5 col-sm-12">
       <div class="product">
         <h2>Wheels</h2>
@@ -17,10 +17,11 @@
 </template>
 
 <script>
-export default {};
+export default {  
+  
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .content {
   display: flex;

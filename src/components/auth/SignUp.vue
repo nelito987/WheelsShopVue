@@ -46,22 +46,13 @@ export default {
         confirmPassword: this.confirmPassword,
         terms: this.terms
       };
-      console.log(formData);
-      this.$http
-        .post("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCN_oWtgjw8fQi5owePLETjK9acHdDE-0Q", {
-          email: formData.email,
-          password: formData.password,
-          returnSecureToken: true
-        })
-        .then(res => console.log(res))
-        .catch(error => console.log(error));
-      // axios.post('/signupNewUser?key=AIzaSyCXlVPPWknVGhfc60mt7Jkv0Xzrho7_mwc', {
-      //   email: formData.email,
-      //   password: formData.password,
-      //   returnSecureToken: true
-      // })
-      //   .then(res => console.log(res))
-      //   .catch(error => console.log(error))
+      this.$store.dispatch("signup", {
+        email: formData.email,
+        password: formData.password
+      }).then(res =>{
+        console.log(res);
+         this.$router.push("/");
+      });
     }
   }
 };

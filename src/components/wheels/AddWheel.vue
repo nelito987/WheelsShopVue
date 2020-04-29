@@ -108,7 +108,7 @@ export default {
         });
       }
       newData.id = id;
-      this.$store.dispatch("addNewWheel").then(
+      this.$store.dispatch("addNewWheel", newData).then(
         response => {
           console.log(response);
           this.$router.push("/wheelslist");

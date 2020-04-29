@@ -37,6 +37,8 @@ Vue.component('dialog-actions-bar', DialogActionsBar);
 Vue.use(ButtonsInstaller);
 Vue.use(PopupsInstaller);
 
+Vue.config.productionTip = false;
+
 new Vue({
   router,
   store,
