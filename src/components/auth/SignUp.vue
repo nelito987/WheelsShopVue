@@ -13,11 +13,7 @@
         <div class="input">
           <label for="confirm-password">Confirm Password</label>
           <input type="password" id="confirm-password" v-model="confirmPassword" />
-        </div>
-        <div class="input inline">
-          <input type="checkbox" id="terms" v-model="terms" />
-          <label for="terms">Accept Terms of Use</label>
-        </div>
+        </div>        
         <div class="submit">
           <button type="submit">Submit</button>
         </div>
@@ -58,7 +54,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .signup-form {
   width: 400px;
   margin: 30px auto;
@@ -95,36 +91,23 @@ export default {
 
 .input input:focus {
   outline: none;
-  border: 1px solid #521751;
-  background-color: #eee;
+  border: 1px solid #c01205;
+  background-color: #fbecea;
 }
 
 .input select {
-  border: 1px solid #ccc;
+  border: 1px solid #fbecea;
   font: inherit;
 }
 
-.hobbies button {
-  border: 1px solid #521751;
-  background: #521751;
-  color: white;
-  padding: 6px;
-  font: inherit;
-  cursor: pointer;
-}
-
-.hobbies button:hover,
-.hobbies button:active {
-  background-color: #8d4288;
-}
-
-.hobbies input {
-  width: 90%;
+input:internal-autofill-selected {
+  background-color: #fbecea !important;
 }
 
 .submit button {
-  border: 1px solid #521751;
-  color: #521751;
+  border: 1px solid #c01205;
+  color: #c01205;
+  background-color: #fbc7c3;
   padding: 10px 20px;
   font: inherit;
   cursor: pointer;
@@ -132,7 +115,7 @@ export default {
 
 .submit button:hover,
 .submit button:active {
-  background-color: #521751;
+  background-color:  #fd5a4e;
   color: white;
 }
 

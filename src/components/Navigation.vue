@@ -1,17 +1,20 @@
 <template>
   <div class="navbar">
     <nav>
-      <div>
-        <router-link
-          class="spacing"
-          v-for="routes in links"
-          v-bind:key="routes.id"
-          :to="`${routes.page}`"
-        >{{routes.text}}</router-link>
+      <div id="navigation-links">
+        <!-- Using v-if and v-for together is not recommended.  -->
+        <div v-for="routes in links" v-bind:key="routes.id">
+          <router-link
+            class="spacing"
+            :to="`${routes.page}`"
+            v-show="auth || !routes.hideOnAuth"
+          >{{routes.text}}</router-link>
+        </div>
       </div>
       <div id="sign">
-        <router-link to="/signup">Sign Up</router-link>
-        <router-link to="/signin">Sign In</router-link>
+        <router-link v-if="!auth" to="/signup">Sign Up</router-link>
+        <router-link v-if="!auth" to="/signin">Sign In</router-link>
+        <div id="logout" v-if="auth" @click="onLogout">Log Out</div>
       </div>
     </nav>
   </div>
@@ -22,42 +25,54 @@ export default {
   name: "Navigation",
   data() {
     return {
+      show: true,
       links: [
         {
           id: 0,
           text: "Home",
-          page: "/"
+          page: "/",
+          hideOnAuth: false
         },
         {
           id: 1,
           text: "Wheels List",
-          page: "/WheelsList"
+          page: "/WheelsList",
+          hideOnAuth: false
         },
         {
           id: 2,
           text: "Tyres List",
-          page: "/TyresList"
+          page: "/TyresList",
+          hideOnAuth: false
         },
         {
           id: 3,
           text: "Contacts",
-          page: "/Contacts"
+          page: "/Contacts",
+          hideOnAuth: false
         },
         {
           id: 4,
           text: "Add Wheel",
-          page: "/addwheel"
+          page: "/addwheel",
+          hideOnAuth: true
         }
       ]
     };
+  },
+  computed: {
+    auth() {     
+      return this.$store.getters.isAuthenticated;
+    }
+  },
+  methods: {
+    onLogout() {
+      this.$store.dispatch("logout");
+    }
   }
 };
 </script>
 <style>
-.spacing {
-  margin-right: 10px;
-}
-
 .navbar {
   border: 2px solid #e5e7e9;
   background: #fd5a4e;
@@ -66,12 +81,10 @@ export default {
 }
 nav {
   flex: 1;
-
   display: flex;
   justify-content: space-between;
 }
 nav a {
-  width: 33%;
   padding: 20px;
   color: rgb(82, 77, 77);
   font-weight: bold !important;
@@ -86,8 +99,18 @@ nav a:hover {
   font-weight: bold;
 }
 
-#sign{
+#sign {
   margin-left: 50px;
+}
+
+#navigation-links {
+  display: inline-flex;
+}
+
+#logout {
+  cursor: pointer;
+  font-weight: bold !important;
+  color: #9c160c;
 }
 </style>
 

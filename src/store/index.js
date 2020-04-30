@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersist from 'vuex-persist'
+import router from '../router/index'
 
 Vue.use(Vuex)
 
@@ -34,6 +35,9 @@ export default new Vuex.Store({
     getWheelDetails: (state) => (id) => {
       var wheel = state.wheelsData.find(x => x.id === id)
       return wheel;
+    },
+    isAuthenticated (state){
+      return state.idToken !== null
     }
   },
   mutations: {
@@ -97,14 +101,15 @@ export default new Vuex.Store({
     },
     STORE_USER(state, user) {
       state.user = user
+    },
+    CLEAR_AUTH_DATA(state){
+      state.idToken = null;
+      state.userId = null;      
     }
   },
   actions: {
-    getWheels({ commit, state }) {
-      if(!state.idToken){
-        return;
-      }
-      return Vue.http.get('https://wheelsshop-89c1d.firebaseio.com/wheels.json'+ '?auth=' + state.idToken)
+    getWheels({ commit }) {      
+      return Vue.http.get('https://wheelsshop-89c1d.firebaseio.com/wheels.json')
         .then(response => {
           return response.json()
         }).then(data => {
@@ -129,18 +134,7 @@ export default new Vuex.Store({
     },
     addNewWheel(context, wheel) {
       return context.commit('ADD_NEW_WHEEL', wheel)
-    },
-    // fetchUser({ commit }, user) {
-    //   commit("SET_LOGGED_IN", user !== null);
-    //   if (user) {
-    //     commit("SET_USER", {
-    //       displayName: user.displayName,
-    //       email: user.email
-    //     });
-    //   } else {
-    //     commit("SET_USER", null);
-    //   }
-    // },
+    },  
     signup({ commit, dispatch }, authData) {
       return Vue.http
         .post("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCN_oWtgjw8fQi5owePLETjK9acHdDE-0Q", {
@@ -149,18 +143,22 @@ export default new Vuex.Store({
           returnSecureToken: true
         })
         .then(res => {
-          console.log('SIGN UP')
-          console.log(res);
+          const now = new Date();
+          const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
+          localStorage.setItem('token', res.data.idToken)
+          localStorage.setItem('userId', res.data.localId)
+          localStorage.setItem('expiresIn', expirationDate)
           this.state.user.email = res.data.email;
           commit('AUTH_USER', {
             token: res.data.idToken,
             userId: res.data.localId
           })
-          dispatch('storeUser', authData)
+          dispatch('storeUser', authData);
+          dispatch('setLogoutTimer', res.data.expiresIn);
         })
         .catch(error => console.log(error));
     },
-    signin({ commit }, authData) {
+    signin({ commit, dispatch }, authData) {
       return Vue.http
         .post("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCN_oWtgjw8fQi5owePLETjK9acHdDE-0Q", {
           email: authData.email,
@@ -168,16 +166,40 @@ export default new Vuex.Store({
           returnSecureToken: true
         })
         .then(res => {
-          console.log('SIGNIN')
-          console.log(res);
-          //this.state.user.data = {email: res.data.email};
+          const now = new Date();
+          const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
+          localStorage.setItem('token', res.data.idToken)
+          localStorage.setItem('userId', res.data.localId)
+          localStorage.setItem('expiresIn', expirationDate)
           this.state.user.email = res.data.email;
           commit('AUTH_USER', {
             token: res.data.idToken,
             userId: res.data.localId
           })
+          dispatch('setLogoutTimer', res.data.expiresIn)
         })
         .catch(error => console.log(error))
+    },
+    tryAutoLogin({commit}){
+      const token = localStorage.getItem('token');
+      if(!token){
+        return;
+      }
+      const expirationDate = localStorage.getItem('expiresIn');
+      const now = new Date();
+      if(now >= expirationDate){
+        return;
+      }
+      const userId = localStorage.getItem('userId')
+      commit('AUTH_USER', {
+        token: token,
+        userId: userId
+      })
+    },
+    setLogoutTimer({commit}, expirationTime){
+      setTimeout(()=>{
+        commit('CLEAR_AUTH_DATA')
+      }, expirationTime*1000)
     },
     storeUser({ state }, userData) {
       if (!state.idToken) {
@@ -188,23 +210,24 @@ export default new Vuex.Store({
         .then(res => console.log(res))
         .catch(error => console.log(error))
     },
-    fetchUser({ commit, state }) {
-      console.log('fetch')
-      console.log(state.idToken)
-      console.log(state.user)
-      console.log(state.userId)
+    fetchUser({ commit, state }) {     
 
       if (!state.idToken) {
         return
       }
       Vue.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCN_oWtgjw8fQi5owePLETjK9acHdDE-0Q', {'Access-Control-Allow-Origin': '*', "idToken": state.idToken})
-        .then(res => {
-          console.log('--fetch--')
-          console.log(res)       
+        .then(res => {              
           const user = res.body.users[0]
           commit('STORE_USER', user)
         })
         .catch(error => console.log(error))
+    },
+    logout({commit}){
+      commit('CLEAR_AUTH_DATA');
+      localStorage.removeItem('expiresIn')
+      localStorage.removeItem('token')
+      localStorage.removeItem('userId')
+      router.replace('/signin')
     }
   }
 })

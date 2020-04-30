@@ -42,3 +42,13 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.signin-form {
+  width: 400px;
+  margin: 30px auto;
+  border: 1px solid #eee;
+  padding: 20px;
+  box-shadow: 0 2px 3px #ccc;
+}
+</style>

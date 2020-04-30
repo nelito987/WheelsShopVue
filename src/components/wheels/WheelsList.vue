@@ -45,7 +45,7 @@ export default {
       }
     };
   },
-  mounted() {
+  mounted() {    
     return this.loadAllWheels();
   },
   methods: {

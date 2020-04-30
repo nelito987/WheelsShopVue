@@ -1,12 +1,13 @@
 <template>
   <div>
     <Navigation></Navigation>
-
-    <ShoppingCart />
-    <div>
-      <p v-if="email">
-      <span>Your email address: {{ email }}</span>
-      </p>
+    <div id="cart-profile">
+      <ShoppingCart />
+      <div id="profile">
+        <p v-if="auth">
+          <span>Your email address: {{ email }}</span>
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -17,7 +18,7 @@ import ShoppingCart from "./ShoppingCart.vue";
 import { mapGetters } from "vuex";
 
 export default {
-  name: "Basic",
+  name: "Header",
   components: {
     Navigation,
     ShoppingCart
@@ -30,16 +31,26 @@ export default {
       return this.$store.getters.inCart;
     },
     email() {
-      console.log('HEADER EMAIL')
-      console.log(this.$store.getters.user)
-      console.log(this.$store.getters.user.email)
       return !this.$store.getters.user ? false : this.$store.getters.user.email;
+    },
+    auth() {
+      return this.$store.getters.isAuthenticated;
     }
   },
-  
   created() {
-    console.log("Header");
     this.$store.dispatch("fetchUser");
   }
 };
 </script>
+
+<style>
+#cart-profile {
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-between;
+}
+#profile {
+  margin-top: 20px;
+  font-style:  italic;
+}
+</style>

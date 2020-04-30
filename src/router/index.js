@@ -9,10 +9,12 @@ import TyresList from '@/components/tyres/TyresList';
 import Contacts from '@/components/Contacts';
 import SignUp from '@/components/auth/SignUp';
 import SignIn from '@/components/auth/SignIn';
+import store from '../store/index.js';
 
 Vue.use(Router);
 
 export default new Router({
+  mode:'history',
   routes: [
     {
       path: '/',
@@ -43,7 +45,14 @@ export default new Router({
     {
       path: '/addWheel',
       name: 'Add Wheel',
-      component: AddWheel
+      component: AddWheel,
+      beforeEnter (to, from, next){
+        if(store.state.idToken){
+          next()
+        } else {
+          next('/signin')
+        }
+      }
     },
     {
       path: '/signup',
@@ -57,3 +66,5 @@ export default new Router({
     }
   ]
 });
+
+
