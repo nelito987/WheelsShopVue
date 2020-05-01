@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="view">
     <app-header />
     <router-view />
     <app-footer />
@@ -30,8 +30,7 @@ export default {
 }
 .content {
   margin: 20px;
-  border: 2px solid salmon;
-  padding: 150px;
+  padding: 5%
 }
 
 .k-filtercell-operator {
@@ -46,5 +45,9 @@ export default {
         align-content: center !important;
         background: orange;
         padding: 10% 30%;
+    }
+
+    #view{
+      height: 100% !important
     }
 </style>

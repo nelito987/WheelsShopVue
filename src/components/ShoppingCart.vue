@@ -34,9 +34,9 @@
         </table>
       </div>
       <div v-else>Your cart is empty!!!</div>
-      <dialog-actions-bar>      
+      <dialog-actions-bar>
         <button class="k-button" @click="onKeepShopping">Keep shopping</button>
-        <button class="k-button" @click="onConfirmCart">Confirm Cart</button>
+        <button class="k-button" id="confirm-cart" @click="onConfirmCart">Confirm Cart</button>
       </dialog-actions-bar>
     </k-dialog>
   </div>
@@ -67,38 +67,46 @@ export default {
       this.$router.go(-1);
       this.visibleDialog = !this.visibleDialog;
     },
-    onConfirmCart(){
+    onConfirmCart() {
+      //TODO 
+      //better handle case when same product is purchased on multiple positions 
+      //and purchased qty is more than the total qty on stock
+
       let currentCart = this.inCart;
       let allWheels = this.$store.getters.wheelsData;
+      let updateWheels = true;
 
-      for(let product of currentCart){
-        let id  = product.id;
-        let qty = product.count;
-        console.log('id:  ' + id + '  qty:  '+ qty)
-        let currentWheel = allWheels.find(element => element.id === id)
+      for (let product of currentCart) {
+        let id = product.id;
+        let qty = product.count;        
+        let currentWheel = allWheels.find(element => element.id === id);
 
-        currentWheel.Stock -= qty;        
+        if (currentWheel.Stock < qty) {
+          alert(
+            "Not enough quantity! Please revise the order accroding to the available stock"
+          );
+          updateWheels = false;
+          let btn = document.getElementById("confirm-cart");
+          btn.style.display = 'none'
+        }else{
+            currentWheel.Stock -= qty;
+        }
+        
       }
 
-      console.log(allWheels)
-      // this.$http
-      //   .put(
-      //     "https://wheelsshop-89c1d.firebaseio.com/wheels.json",
-      //     allWheels
-      //   )
-       this.$store.dispatch("updateWheelsData", allWheels)
-        .then(
+      if (updateWheels) {
+        this.$store.dispatch("updateWheelsData", allWheels).then(
           response => {
-            console.log(response)
+            console.log(response);
             this.visibleDialog = !this.visibleDialog;
-            this.$router.push('/wheelslist')            
+            this.$router.push("/wheelslist");
             this.$store.dispatch("emptyCart");
-           
           },
           error => {
             console.log(error);
           }
         );
+      }
     }
   },
   computed: {

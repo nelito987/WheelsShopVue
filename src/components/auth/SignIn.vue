@@ -51,4 +51,8 @@ export default {
   padding: 20px;
   box-shadow: 0 2px 3px #ccc;
 }
+
+#signin{
+  margin-bottom: 20%;
+}
 </style>

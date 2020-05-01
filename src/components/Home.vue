@@ -28,14 +28,15 @@ export default {
   justify-content: space-between;
 }
 .product-home {
-  border: 2px solid orange;
+  border: 5px solid salmon;
+  border-radius: 5%;
+  padding: 50px;
   min-width: 300px;
   position: relative;
   margin-left: 20px;
   background-color: white;
 }
-.product-image {
-  border: 1px solid black;
+.product-image {  
   max-width: 200px;
   max-height: 200px;
   margin: 50px;

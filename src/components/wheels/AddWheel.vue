@@ -1,19 +1,18 @@
 <template>
   <div>
-    <form id="addWheel" @submit="onSubmit" @reset="onReset">
+    <form id="addWheel" @submit="onSubmit">
       <h3 class="formHeader">Add Wheel Form</h3>
 
       <div v-for="(value, index) in wheelFormData" v-bind:key="index">
         <InputField
           :type="value.type"
           :label="value.label"
-          :placeholder="value.label"
+          :placeholder="value.placeholder"
           v-model="value.value"
         />
       </div>
 
       <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
     </form>
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ wheelFormData }}</pre>
@@ -32,49 +31,58 @@ export default {
         {
           label: "Brand",
           value: "",
-          type: "text"
+          type: "text",
+          placeholder: "Brand"
         },
         {
           label: "Name",
           value: "",
-          type: "text"
+          type: "text",
+          placeholder: "Enter the name of the wheel"
         },
 
         {
           label: "Size",
           value: "",
-          type: "number"
+          type: "number",
+          placeholder: "Size"
         },
 
         {
           label: "PCD",
           value: "",
-          type: "number"
+          type: "number",
+          placeholder: "PCD"
         },
         {
           label: "Holes",
           value: "",
-          type: "number"
+          type: "number",
+          placeholder: "Number of holes"
         },
         {
           label: "Offset",
           value: "",
-          type: "number"
+          type: "number",
+          placeholder: "Offset"
         },
         {
           label: "Price",
           value: "",
-          type: "text"
+          type: "text",
+          placeholder: "Price"
         },
         {
           label: "Stock",
           value: "",
-          type: "number"
+          type: "number",
+          placeholder: "Wheels on stock"
         },
         {
           label: "Image",
           value: "",
-          type: "text"
+          type: "text",
+          placeholder: "Enter Image Url"
         }
       ]
     };
@@ -108,30 +116,8 @@ export default {
         });
       }
       newData.id = id;
-      this.$store.dispatch("addNewWheel", newData).then(
-        response => {
-          console.log(response);
-          this.$router.push("/wheelslist");
-        },
-        error => {
-          console.log(error);
-        }
-      );
-    },
-    onReset(evt) {
-      evt.preventDefault();
-      //TODO
-      // Reset our form values
-      // this.wheelData.email = "";
-      // this.wheelData.name = "";
-      // this.wheelData.food = null;
-      // this.wheelData.checked = [];
-      // // Trick to reset/clear native browser form validation state
-      // this.show = false;
-      // this.$nextTick(() => {
-      //   this.show = true;
-      // });
-    }
+      this.$store.dispatch("addNewWheel", newData)
+    }    
   }
 };
 </script>

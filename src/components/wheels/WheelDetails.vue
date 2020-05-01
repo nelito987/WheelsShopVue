@@ -40,7 +40,8 @@ export default {
     return {
       id: this.$route.params.id,
       Image: "",
-      wheelsCount: 4
+      wheelsCount: 4,
+      popupNotificationWidget: {}
     };
   },
   mounted: function() {
@@ -49,13 +50,12 @@ export default {
   //props: ["id"],
   computed: {
     details() {
-      //if the page is reloaded and the state does not persist, get the list of wheels from sessionStorage
-      var wheel = this.$store.getters.getWheelDetails(this.id);      
+      var wheel = this.$store.getters.getWheelDetails(this.id);  
+         //persist data on reload
       if (wheel == undefined) {
-        var appData = JSON.parse(sessionStorage.getItem("App"));
-        var wheels = appData.wheelsData;
-        wheel = wheels.find(x => x.id == this.id)
-        console.log(wheels);
+        wheel = JSON.parse(localStorage.getItem('wheel'))
+      }else{
+        localStorage.setItem('wheel',JSON.stringify(wheel)) 
       }
       return wheel;
     },

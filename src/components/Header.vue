@@ -5,7 +5,7 @@
       <ShoppingCart />
       <div id="profile">
         <p v-if="auth">
-          <span>Your email address: {{ email }}</span>
+          <span>Email addres of the logged user: <p><b>{{ email }}</b></p></span>
         </p>
       </div>
     </div>

@@ -1,15 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import VuexPersist from 'vuex-persist'
 import router from '../router/index'
 
 Vue.use(Vuex)
-
-const vuexPersist = new VuexPersist({
-  key: 'App',
-  storage: window.sessionStorage
-})
-
 
 export default new Vuex.Store({
   state: {
@@ -25,15 +18,16 @@ export default new Vuex.Store({
       loggedIn: false,
       data: null,
       email: ''
-    }
+    },
+    idToken: null,
+    userId: null
   },
-  plugins: [vuexPersist.plugin],
   getters: {
     wheelsData: state => state.wheelsData,
     user: state => state.user,
     inCart: state => state.inCart,
     getWheelDetails: (state) => (id) => {
-      var wheel = state.wheelsData.find(x => x.id === id)
+      var wheel = state.wheelsData.find(x => x.id == id)
       return wheel;
     },
     isAuthenticated (state){
@@ -77,12 +71,13 @@ export default new Vuex.Store({
       }
       return Vue.http
         .post(
-          "https://wheelsshop-89c1d.firebaseio.com/wheels.json",
+          "https://wheelsshop-89c1d.firebaseio.com/wheels.json"+ '?auth=' + state.idToken,
           wheel
         )
         .then(
-          response => {
+          response => {            
             console.log(response)
+            router.push("/wheelslist");
           },
           error => {
             console.log(error);
@@ -143,17 +138,19 @@ export default new Vuex.Store({
           returnSecureToken: true
         })
         .then(res => {
+
           const now = new Date();
           const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
           localStorage.setItem('token', res.data.idToken)
           localStorage.setItem('userId', res.data.localId)
           localStorage.setItem('expiresIn', expirationDate)
           this.state.user.email = res.data.email;
+
           commit('AUTH_USER', {
             token: res.data.idToken,
             userId: res.data.localId
           })
-          dispatch('storeUser', authData);
+          //dispatch('storeUser', authData);
           dispatch('setLogoutTimer', res.data.expiresIn);
         })
         .catch(error => console.log(error));
@@ -166,12 +163,14 @@ export default new Vuex.Store({
           returnSecureToken: true
         })
         .then(res => {
+
           const now = new Date();
           const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
           localStorage.setItem('token', res.data.idToken)
           localStorage.setItem('userId', res.data.localId)
           localStorage.setItem('expiresIn', expirationDate)
           this.state.user.email = res.data.email;
+
           commit('AUTH_USER', {
             token: res.data.idToken,
             userId: res.data.localId
@@ -201,15 +200,14 @@ export default new Vuex.Store({
         commit('CLEAR_AUTH_DATA')
       }, expirationTime*1000)
     },
-    storeUser({ state }, userData) {
-      if (!state.idToken) {
-        return
-      }
-      console.log('STOREUSER ACTION')
-      Vue.http.post('https://wheelsshop-89c1d.firebaseio.com/users.json' + '?auth=' + state.idToken, userData)
-        .then(res => console.log(res))
-        .catch(error => console.log(error))
-    },
+    // storeUser({ state }, userData) {
+    //   if (!state.idToken) {
+    //     return
+    //   }      
+    //   Vue.http.post('https://wheelsshop-89c1d.firebaseio.com/users.json' + '?auth=' + state.idToken, userData)
+    //     .then(res => console.log(res))
+    //     .catch(error => console.log(error))
+    // },
     fetchUser({ commit, state }) {     
 
       if (!state.idToken) {

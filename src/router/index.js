@@ -9,7 +9,7 @@ import TyresList from '@/components/tyres/TyresList';
 import Contacts from '@/components/Contacts';
 import SignUp from '@/components/auth/SignUp';
 import SignIn from '@/components/auth/SignIn';
-import store from '../store/index.js';
+import store from '../store/store.js';
 
 Vue.use(Router);
 

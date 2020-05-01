@@ -23,7 +23,6 @@
 </template>
 
 <script>
-//import { Grid, GridToolbar, GridNoRecords } from "@progress/kendo-vue-grid";
 import { filterBy } from "@progress/kendo-data-query";
 import { mapActions, mapGetters } from "vuex";
 

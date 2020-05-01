@@ -1,14 +1,12 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-// import 'bootstrap-css-only/css/bootstrap.min.css'
-// import 'mdbvue/lib/css/mdb.min.css'
 import '@progress/kendo-theme-default/dist/all.css'
 
 //main
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store/index'
+import store from './store/store'
 import VueResource from 'vue-resource'
 
 

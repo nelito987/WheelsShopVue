@@ -1,11 +1,11 @@
 <template>
-    <div id="footer"><div>Footer</div></div>
+    <div id="footer"><div>	&copy; Copyright 2020 NK</div></div>
 </template>
 
 <style>
     #footer{
         text-align: center;
-        background: #f7d56e;   
-        padding: 5% 0% 5%;     
+        background:  salmon;   
+        padding: 1% 0% 1%;     
     }
 </style>

@@ -127,4 +127,8 @@ input:internal-autofill-selected {
   color: #ccc;
   cursor: not-allowed;
 }
+
+#signup{
+  margin-bottom: 15%;
+}
 </style>
